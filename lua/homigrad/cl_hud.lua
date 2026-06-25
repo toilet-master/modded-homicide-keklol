@@ -541,6 +541,7 @@ local randomGestures = {
 	{"point", function() RunConsoleCommand("hg_hand_gesture", "point") end},
 	{"fuck you", function() RunConsoleCommand("hg_hand_gesture", "fuckyou") end},
 	{"thumb_up", function() RunConsoleCommand("hg_hand_gesture" , "thumb_up") end},
+	--{"visordown", function() RunConsoleCommand("hg_hand_gesture" , "visordown") end},
 }
 
 concommand.Add("hg_randomgesture",function()

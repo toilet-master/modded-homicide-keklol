@@ -49,7 +49,7 @@ local gestures = {
 	--["door_open_back"] = {"door_open_back", false},
 	--["door_open_forward"] = {"door_open_forward", false},
 	--["usedoor"] = "usedoor",
-	--["visordown"] = "visordown"
+	--["visordown"] = {"visordown", false}
 }
 
 concommand.Add("hg_hand_gesture",function( ply, cmd, args )

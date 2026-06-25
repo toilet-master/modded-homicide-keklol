@@ -1,14 +1,31 @@
 hg.settings = hg.settings or {}
 hg.settings.tbl = hg.settings.tbl or {}
-
+hg.hudcolor = hg.hudcolor or {}
 function hg.settings:AddOpt( strCategory, strConVar, strTitle, bDecimals, bString, category )
     self.tbl[strCategory] = self.tbl[strCategory] or {}
     self.tbl[strCategory][strConVar] = { strCategory, strConVar, strTitle, bDecimals or false, bString or false, category }
 end
 local hg_firstperson_death = CreateClientConVar("hg_firstperson_death", "0", true, false, "Toggle first-person death camera view", 0, 1)
 local hg_font = CreateClientConVar("hg_font", "Bahnschrift", true, false, "change every text font to selected because ui customization is cool")
+local hg_hudcolor = CreateClientConVar("hg_hudcolor", 0, true, false, "Choose from 6 colors!", 0, 6)
 local hg_attachment_draw_distance = CreateClientConVar("hg_attachment_draw_distance", 0, true, nil, "distance to draw attachments", 0, 4096)
-
+function hg.hudcolor:colorchange()
+    local colors = {
+        Color(155,0,0),
+        Color(52,146,235),
+        Color(52,235,52),
+        Color(255,158,223),
+        Color(255,0,234),
+        Color(255,217,0),
+    }
+    local pickedcolor = colors[hg_hudcolor:GetInt()]
+    return pickedcolor
+end
+function hg.hudcolor:colorstring()
+    local cl = hg.hudcolor:colorchange()
+    local colorstring = cl.r .. "," .. cl.g .. "," .. cl.b
+    return colorstring
+end
 xbars = 17
 ybars = 30
 
@@ -90,6 +107,7 @@ hg.settings:AddOpt("Blood","hg_blood_sprites", "Blood Sprites (DISABLED FOR EVER
 hg.settings:AddOpt("Blood","hg_old_blood", "Old blood")
 
 hg.settings:AddOpt("UI","hg_font", "Change Custom Font", false, true)
+hg.settings:AddOpt("UI","hg_hudcolor", "Change Hud Color", false, true)
 
 hg.settings:AddOpt("Weapons","hg_weaponshotblur_enable", "Shooting Blur")
 hg.settings:AddOpt("Weapons","hg_dynamic_mags", "Dynamic Ammo Inspect")

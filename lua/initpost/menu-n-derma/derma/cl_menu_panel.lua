@@ -1,7 +1,6 @@
+hg.hudcolor = hg.hudcolor or {}
 local PANEL = {}
-local curent_panel 
-local red_select = Color(192,0,0)
-
+local curent_panel
 DISCORD_URL = "https://discord.gg/475EmEdTgH"
 
 local Selects = {
@@ -35,7 +34,7 @@ local Selects = {
             self.HoverLerp = selfa.HoverLerp
             self.HoverLerp2 = LerpFT(0.2, self.HoverLerp2 or 0, self:IsHovered() and 1 or 0)
                 
-            self:SetTextColor(self.RColor:Lerp(self.WColor:Lerp(red_select, self.HoverLerp2), self.HoverLerp))
+            self:SetTextColor(self.RColor:Lerp(self.WColor:Lerp(hg.hudcolor:colorchange(), self.HoverLerp2), self.HoverLerp))
             self:SetX(self.x + ScreenScaleH(40) + self.HoverLerp * ScreenScaleH(50))
         end
 
@@ -62,7 +61,7 @@ local Selects = {
             self.HoverLerp = selfa.HoverLerp
             self.HoverLerp2 = LerpFT(0.2, self.HoverLerp2 or 0, self:IsHovered() and 1 or 0)
     
-            self:SetTextColor(self.RColor:Lerp(self.WColor:Lerp(red_select, self.HoverLerp2), self.HoverLerp))
+            self:SetTextColor(self.RColor:Lerp(self.WColor:Lerp(hg.hudcolor:colorchange(), self.HoverLerp2), self.HoverLerp))
             self:SetX(self.x + ScreenScaleH(35))
         end
     end,
@@ -106,7 +105,6 @@ surface.CreateFont("ZC_MM_Title", {
     antialias = true
 })
 -- local Title = markup.Parse("error")
-
 local Pluv = Material("pluv/pluvkid.jpg")
 
 function PANEL:InitializeMarkup()
@@ -118,14 +116,14 @@ function PANEL:InitializeMarkup()
 	local gm = splasheh[math.random(#splasheh)] .. " | " .. string.NiceName(mapname) 
 
     if hg.PluvTown.Active then
-        local text = "<font=ZC_MM_Title><colour=199,2,2>    </colour>City</font>\n<font=ZCity_Tiny><colour=105,105,105>" .. gm .. "</colour></font>"
+        local text = "<font=ZC_MM_Title><colour="..hg.hudcolor:colorstring()..">    </colour>City</font>\n<font=ZCity_Tiny><colour=255,255,255>" .. gm .. "</colour></font>"
 
         self.SelectedPluv = table.Random(hg.PluvTown.PluvMats)
 
         return markup.Parse(text)
     end
 
-    local text = "<font=ZC_MM_Title><colour=199,2,2,255>Z</colour>-City</font>\n<font=ZCity_Tiny><colour=105,105,105>" .. gm .. "</colour></font>"
+    local text = "<font=ZC_MM_Title><colour="..hg.hudcolor:colorstring()..">Z</colour>-City</font>\n<font=ZCity_Tiny><colour=255,255,255>" .. gm .. "</colour></font>"
     return markup.Parse(text)
 end
 
@@ -187,7 +185,7 @@ function PANEL:Init()
     git:Dock(BOTTOM)
     git:DockMargin(ScreenScale(10), 0, 0, 0)
     git:SetFont("ZCity_Tiny")
-    git:SetTextColor(clr_gray)
+    git:SetTextColor(Color(255,255,255))
     git:SetText("GitHub: github.com/" .. hg.GitHub_ReposOwner .. "/" .. hg.GitHub_ReposName)
     git:SetContentAlignment(4)
     git:SetMouseInputEnabled(true)
@@ -210,7 +208,7 @@ function PANEL:Init()
     zteam:Dock(BOTTOM)
     zteam:DockMargin(ScreenScale(10), 0, 0, 0)
     zteam:SetFont("ZCity_Tiny")
-    zteam:SetTextColor(clr_gray)
+    zteam:SetTextColor(Color(255,255,255))
     zteam:SetText("Authors: uzelezz, Sadsalat, \nMr.Point, Zac90, Deka, Mannytko")
     zteam:SetContentAlignment(4)
     zteam:SizeToContents()
@@ -223,15 +221,15 @@ end
 local gradient_d = surface.GetTextureID("vgui/gradient-d")
 local gradient_r = surface.GetTextureID("vgui/gradient-u")
 local gradient_l = surface.GetTextureID("vgui/gradient-l")
-
-local clr_1 = Color(102,0,0,35)
+local darker = 0.5
+local clr_1 = Color(2,0,0,35)
 function PANEL:Paint(w,h)
     draw.RoundedBox( 0, 0, 0, w, h, self.ColorBG )
     hg.DrawBlur(self, 5)
     surface.SetDrawColor( self.ColorBG )
     surface.SetTexture( gradient_l )
     surface.DrawTexturedRect(0,0,w,h)
-    surface.SetDrawColor( clr_1 )
+    surface.SetDrawColor( hg.hudcolor:colorchange() )
     surface.SetTexture( gradient_d )
     surface.DrawTexturedRect(0,0,w,h)
 end
@@ -294,7 +292,7 @@ function PANEL:AddSelect( pParent, strTitle, tbl )
         self.HoverLerp = LerpFT(0.2, self.HoverLerp or 0, (self:IsHovered() or (IsValid(self:GetChild(0)) and self:GetChild(0):IsHovered()) or (IsValid(self:GetChild(0)) and IsValid(self:GetChild(0):GetChild(0)) and self:GetChild(0):GetChild(0):IsHovered())) and 1 or 0)
 
         local v = self.HoverLerp
-        self:SetTextColor(self.RColor:Lerp(red_select, v))
+        self:SetTextColor(self.RColor:Lerp(hg.hudcolor:colorchange(), v))
 
         local targetText = (self:IsHovered()) and string.upper(strTitle) or strTitle
         local crw = self:GetText()
