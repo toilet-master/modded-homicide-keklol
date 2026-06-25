@@ -2,6 +2,7 @@
 
 ----
 local PANEL = {}
+hg.hudcolor = hg.hudcolor or {}
 --[[
 hg.VGUI.SecondaryColor = Color(155,0,0,240)
 hg.VGUI.BackgroundColor = Color(25,25,35,220)]]
@@ -16,7 +17,7 @@ function PANEL:Init()
     self.DrawBorder = true
 
     self.ColorBG = Color(color_blacky:Unpack())
-    self.ColorBR = Color(color_reddy:Unpack())
+    self.ColorBR = Color(hg.hudcolor:colorchange():Unpack())
     self.BlurStrengh = 2
 
     timer.Simple(0,function()

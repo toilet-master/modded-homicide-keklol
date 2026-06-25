@@ -1,3 +1,4 @@
+hg.hudcolor = hg.hudcolor or {}
 hg.TraitorLoot = {
 	["weapon_sogknife"] = 10,
 	["weapon_buck200knife"] = 10,
@@ -26,7 +27,7 @@ if CLIENT then
 		OpenInv(ent)
 	end)
 
-	local colRed = Color(255, 0, 0, 255)
+	local colRed = hg.hudcolor:colorchange()
 	local colBlack2 = Color(100, 100, 100)
 	local colBlack3 = Color(50, 50, 50, 120)
 	local colBlue = Color(150, 150, 150)
@@ -354,16 +355,24 @@ if CLIENT then
 				end
 
 				local name = nameThings(i, thing)
-				button.col1 = 100
+				local chcl = hg.hudcolor:colorchange()
+				button.col1 = chcl.r
+				button.col2 = chcl.g
+				button.col3 = chcl.b
+				local c1,c2,c3 = button.col1+20, button.col2+20, button.col3+20
+				local mc1, mc2, mc3 = button.col1-20, button.col2-20, button.col3-20
+				local larpsahur = 0.5
 				button.Paint = function(self, w, h)
-					button.col1 = Lerp(0.1, button.col1, button:IsHovered() and 255 or 100)
+					button.col1 = Lerp(larpsahur, button.col1, button:IsHovered() and c1 or mc1)
+					button.col2 = Lerp(larpsahur, button.col2, button:IsHovered() and c2 or mc2)
+					button.col3 = Lerp(larpsahur, button.col3, button:IsHovered() and c3 or mc3)
 					if button:IsHovered() then
 						button.SoundKD = button.SoundKD or 0
 						if (grid.SoundKD or 0) < CurTime() and button.SoundKD < CurTime() then surface.PlaySound("arc9_eft_shared/generic_mag_pouch_out" .. math.random(7) .. ".ogg") end
 						button.SoundKD = CurTime() + 0.1
 					end
 
-					surface.SetDrawColor(button.col1, 0, 0, 15)
+					surface.SetDrawColor(button.col1, button.col2, button.col3, 15)
 					surface.DrawRect(0, 0, w, h)
 					local Icon, HaveIcon, Overide, Quad = getIconThing(i, thing, tab)
 					if Icon then
@@ -381,7 +390,7 @@ if CLIENT then
 						surface.DrawTexturedRect(Quad and w / 5 + 5 or 0 - 5, 5, Quad and (w / 2 + 2.5) or (w + 10), Quad and h / 1.3 or h - 10)
 					end
 
-					surface.SetDrawColor(button.col1,0,0,button.col1)
+					surface.SetDrawColor(button.col1,button.col2,button.col3,button.col1)
 					surface.DrawOutlinedRect(0, 0, w, h, 1)
 					local Text = (tab == "Ammo" and game.GetAmmoName(name)) or language.GetPhrase(name)
 					local SubText = utf8.sub(Text, 17)
