@@ -119,11 +119,15 @@ function WS.WeaponSelectorDraw( ply )
                 2, 
                 ColorAlpha(color_black,WS.Transparent*205) 
             )
-            surface.SetDrawColor( hg.hudcolor:colorchange(), WS.Transparent*( SelectedWep == wep and 200 or 0 )  )
+            local hudcl = hg.hudcolor:colorchange()
+            hudcl.r = hudcl.r - 40
+            hudcl.g = hudcl.g - 40
+            hudcl.b = hudcl.b - 40
+            surface.SetDrawColor( hudcl.r+40,hudcl.g+40,hudcl.b+40, WS.Transparent*( SelectedWep == wep and 200 or 0 )  )
             surface.SetMaterial( gradient_u )
             surface.DrawTexturedRect( position, (scrH * 0.025) * (Ammout) + (scrH * 0.05) + lastPos, sizeX, sizeH )
             if SelectedWep == wep then
-                surface.SetDrawColor( hg.hudcolor:colorchange(), WS.Transparent*155 )
+                surface.SetDrawColor( hudcl.r,hudcl.g,hudcl.b, WS.Transparent*155 )
 	            surface.DrawOutlinedRect( position, (scrH * 0.025) * (Ammout) + (scrH * 0.05) + lastPos, sizeX, sizeH, 2 )
             end
             local sizeHi = (scrH *0.025) * (Ammout) + (scrH * 0.05) + lastPos

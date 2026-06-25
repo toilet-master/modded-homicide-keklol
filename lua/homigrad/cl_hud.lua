@@ -198,7 +198,7 @@ local current_option = 1
 local current_option_select = 1
 local hook_Run = hook.Run
 
-local incoentCol = Color(128,0,0)
+local incoentCol = Color(128,0,0) --virginitycol = Color(128)
 local taitorCol = Color(155,0,0)
 
 local menuPanel

@@ -229,7 +229,11 @@ function PANEL:Paint(w,h)
     surface.SetDrawColor( self.ColorBG )
     surface.SetTexture( gradient_l )
     surface.DrawTexturedRect(0,0,w,h)
-    surface.SetDrawColor( hg.hudcolor:colorchange() )
+    local hudcl = hg.hudcolor:colorchange()
+    hudcl.r = hudcl.r - 200
+    hudcl.g = hudcl.g - 200
+    hudcl.b = hudcl.b - 200
+    surface.SetDrawColor( hudcl.r, hudcl.g, hudcl.b )
     surface.SetTexture( gradient_d )
     surface.DrawTexturedRect(0,0,w,h)
 end
