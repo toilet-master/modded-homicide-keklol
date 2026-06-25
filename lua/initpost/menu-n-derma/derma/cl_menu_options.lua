@@ -7,7 +7,7 @@ function hg.settings:AddOpt( strCategory, strConVar, strTitle, bDecimals, bStrin
 end
 local hg_firstperson_death = CreateClientConVar("hg_firstperson_death", "0", true, false, "Toggle first-person death camera view", 0, 1)
 local hg_font = CreateClientConVar("hg_font", "Bahnschrift", true, false, "change every text font to selected because ui customization is cool")
-local hg_hudcolor = CreateClientConVar("hg_hudcolor", 0, true, false, "Choose from 6 colors!", 0, 6)
+local hg_hudcolor = CreateClientConVar("hg_hudcolor", 1, true, false, "Choose from 6 colors!", 1, 6)
 local hg_attachment_draw_distance = CreateClientConVar("hg_attachment_draw_distance", 0, true, nil, "distance to draw attachments", 0, 4096)
 function hg.hudcolor:colorchange()
     local colors = {
@@ -107,7 +107,7 @@ hg.settings:AddOpt("Blood","hg_blood_sprites", "Blood Sprites (DISABLED FOR EVER
 hg.settings:AddOpt("Blood","hg_old_blood", "Old blood")
 
 hg.settings:AddOpt("UI","hg_font", "Change Custom Font", false, true)
-hg.settings:AddOpt("UI","hg_hudcolor", "Change Hud Color", false, true)
+hg.settings:AddOpt("UI","hg_hudcolor", "Change Hud Color", nil, nil, "int")
 
 hg.settings:AddOpt("Weapons","hg_weaponshotblur_enable", "Shooting Blur")
 hg.settings:AddOpt("Weapons","hg_dynamic_mags", "Dynamic Ammo Inspect")

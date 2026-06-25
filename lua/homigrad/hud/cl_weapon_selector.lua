@@ -120,9 +120,11 @@ function WS.WeaponSelectorDraw( ply )
                 ColorAlpha(color_black,WS.Transparent*205) 
             )
             local hudcl = hg.hudcolor:colorchange()
+            if hudcl then
             hudcl.r = hudcl.r - 40
             hudcl.g = hudcl.g - 40
             hudcl.b = hudcl.b - 40
+            end
             surface.SetDrawColor( hudcl.r+40,hudcl.g+40,hudcl.b+40, WS.Transparent*( SelectedWep == wep and 200 or 0 )  )
             surface.SetMaterial( gradient_u )
             surface.DrawTexturedRect( position, (scrH * 0.025) * (Ammout) + (scrH * 0.05) + lastPos, sizeX, sizeH )
