@@ -1,4 +1,5 @@
 hg.Appearance = hg.Appearance or {}
+hg.hudcolor = hg.hudcolor or {}
 local APmodule = hg.Appearance
 local PANEL = {}
 
@@ -288,8 +289,12 @@ local sw, sh = ScrW(), ScrH()
 
 function PANEL:Paint(w,h)
 
-
-    surface.SetDrawColor(28,28,28,255)
+--hello larper comment
+    local chcl = hg.hudcolor:colorchange()
+    chcl.r = chcl.r - 150
+	chcl.g = chcl.g - 150
+	chcl.b = chcl.b - 150
+    surface.SetDrawColor(chcl.r,chcl.g,chcl.b,200)
     surface.DrawRect(0, 0, w, h)
 
     surface.SetDrawColor(107, 107, 107,20)
@@ -302,7 +307,7 @@ function PANEL:Paint(w,h)
         surface.DrawRect(0, (sh / xbars) * (i - 1) + (CurTime() * 30 % (sh / xbars)), sw, ScreenScale(1))
     end
 
-    local border_size = 5
+    local border_size = 40
     surface.SetDrawColor(0, 0, 0)
     surface.SetMaterial(gradient_l)
     surface.DrawTexturedRect(0, 0, border_size, sh)

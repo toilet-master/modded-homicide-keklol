@@ -119,7 +119,7 @@ function WS.WeaponSelectorDraw( ply )
                 2, 
                 ColorAlpha(color_black,WS.Transparent*205) 
             )
-            local hudcl = hg.hudcolor:colorchange()
+            local hudcl = hg.hudcolor:colorchange() or {}
             if hudcl then
             hudcl.r = hudcl.r - 40
             hudcl.g = hudcl.g - 40

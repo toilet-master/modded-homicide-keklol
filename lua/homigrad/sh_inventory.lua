@@ -1,4 +1,3 @@
-hg.hudcolor = hg.hudcolor or {}
 hg.TraitorLoot = {
 	["weapon_sogknife"] = 10,
 	["weapon_buck200knife"] = 10,
@@ -27,7 +26,7 @@ if CLIENT then
 		OpenInv(ent)
 	end)
 
-	local colRed = hg.hudcolor:colorchange()
+	local colRed = Color(255, 0, 0, 255)
 	local colBlack2 = Color(100, 100, 100)
 	local colBlack3 = Color(50, 50, 50, 120)
 	local colBlue = Color(150, 150, 150)

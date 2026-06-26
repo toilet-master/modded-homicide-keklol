@@ -7,7 +7,6 @@ hg.hudcolor = hg.hudcolor or {}
 hg.VGUI.SecondaryColor = Color(155,0,0,240)
 hg.VGUI.BackgroundColor = Color(25,25,35,220)]]
 local color_blacky = Color(25,25,30,220)
-local color_reddy = Color(155,0,0,240)
 
 function PANEL:Init()
     self.Itensens = {}
@@ -15,8 +14,12 @@ function PANEL:Init()
     self:SetTitle( "" )
 
     self.DrawBorder = true
-
-    self.ColorBG = Color(color_blacky:Unpack())
+    local chcl = hg.hudcolor:colorchange()
+    local hmm = Color(
+    chcl.r - 125,
+	chcl.g - 125,
+	chcl.b - 125, 200)
+    self.ColorBG = Color(hmm:Unpack())
     self.ColorBR = Color(hg.hudcolor:colorchange():Unpack())
     self.BlurStrengh = 2
 
