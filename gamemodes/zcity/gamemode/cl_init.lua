@@ -1,4 +1,5 @@
 zb = zb or {}
+hg.hudcolor = hg.hudcolor or {}
 include("shared.lua")
 include("loader.lua")
 
@@ -593,7 +594,7 @@ function GM:ScoreboardShow()
 	local ServerName = GetHostName() or "ZCity | Developer Server | #01"
 	local tick
 	scoreBoardMenu.PaintOver = function(self,w,h)
-		surface.SetDrawColor( 255, 0, 0, 128)
+		surface.SetDrawColor( 0, 0, 0, 128)
         surface.DrawOutlinedRect( 0, 0, w, h, 2.5 )
 
 		surface.SetFont( "ZB_InterfaceLarge" )
@@ -642,7 +643,11 @@ function GM:ScoreboardShow()
 		end
 
 		SPECTATE.Paint = function(self,w,h)
-			surface.SetDrawColor( 255, 0, 0, 128)
+			local hudcl = hg.hudcolor:colorchange()
+			hudcl.r = hudcl.r + 20
+			hudcl.g = hudcl.g + 20
+			hudcl.b = hudcl.b + 20
+			surface.SetDrawColor( hudcl.r, hudcl.g, hudcl.b)
 			surface.DrawOutlinedRect( 0, 0, w, h, 2.5 )
 			surface.SetFont( "ZB_InterfaceMedium" )
 			surface.SetTextColor(col.r,col.g,col.b,col.a)
@@ -687,8 +692,12 @@ function GM:ScoreboardShow()
 
 		surface.SetDrawColor(0, 0, 0, 125)
 		surface.DrawRect(0, 0, w, h)
-
-		surface.SetDrawColor( 255, 0, 0, 128)
+--comment
+		local hudcl = hg.hudcolor:colorchange()
+		hudcl.r = hudcl.r - 100
+		hudcl.g = hudcl.g - 100
+		hudcl.b = hudcl.b - 100
+		surface.SetDrawColor( hudcl.r, hudcl.g, hudcl.b,128)
         surface.DrawOutlinedRect( 0, 0, w, h, 2.5 )
 	end
 
@@ -706,21 +715,24 @@ function GM:ScoreboardShow()
 		
 		local soundButton = vgui.Create("DImageButton", but)
 		soundButton:Dock(RIGHT)
-		soundButton:SetSize( 30, 0 )
-		soundButton:DockMargin(5,10,45,10)
+		soundButton:SetSize( 25, 0 )
+		soundButton:DockMargin(5,3,45,5)
 		
 		soundButton:SetImage(not ply:IsMuted() && "icon16/sound.png" || "icon16/sound_mute.png") 
 		soundButton.DoClick = function(self)
 			OpenPlayerSoundSettings(self, ply) 
 		end
 		ply.soundButton = soundButton
-	
+		local hudcl = hg.hudcolor:colorchange()
+		hudcl.r = hudcl.r - 125
+		hudcl.g = hudcl.g - 125
+		hudcl.b = hudcl.b - 125
 		but.Paint = function(self, w, h)
 			if not IsValid(ply) then return end
-			surface.SetDrawColor(colBlueUp.r, colBlueUp.g, colBlueUp.b, colBlueUp.a)
+			surface.SetDrawColor(hudcl.r, hudcl.g, hudcl.b)
 			surface.DrawRect(0, 0, w, h)
-			surface.SetDrawColor(colBlue.r, colBlue.g, colBlue.b, colBlue.a)
-			surface.DrawRect(0, h / 2, w, h / 2)
+			surface.SetDrawColor(0,0,0, 200)
+			surface.DrawRect(0, h / 1.5, w, h / 2)
 	
 			surface.SetFont("ZB_InterfaceMediumLarge")
 			surface.SetTextColor(col.r, col.g, col.b, col.a)
@@ -733,6 +745,24 @@ function GM:ScoreboardShow()
 			local lengthX, lengthY = surface.GetTextSize(ply:Ping() or "He quited...")
 			surface.SetTextPos(w - lengthX - 15, h / 2 - lengthY / 2)
 			surface.DrawText(ply:Ping() or "He quited...")
+			
+			--[[if LocalPlayer():Team() == TEAM_SPECTATOR then
+				net.Start("get_karma")
+    			net.SendToServer()
+				net.Receive("get_karma",function(len)
+					local tbl = net.ReadTable()
+					return tbl
+				end)
+				if IsValid(tbl) then
+					for id,karma in pairs(tbl) do
+						surface.SetFont("ZB_InterfaceMediumLarge")
+						surface.SetTextColor(col.r, col.g, col.b, col.a)
+						local lengthX, lengthY = surface.GetTextSize(ply:Name() or "He quited...")
+						surface.SetTextPos(15, h / 2 - lengthY / 2)
+						surface.DrawText(math.Round(karma,2) or "He quited...")
+					end
+				end
+			end]]
 		end
 
 		function but:DoClick()
@@ -759,13 +789,17 @@ function GM:ScoreboardShow()
 	local DScrollPanel = vgui.Create("DScrollPanel", scoreBoardMenu)
 	DScrollPanel:SetPos(sizeX/2 + 5, ScreenScaleH(58))
 	DScrollPanel:SetSize(sizeX/2 - 15, sizeY - ScreenScaleH(72))
+	local hudcl = hg.hudcolor:colorchange()
+	hudcl.r = hudcl.r - 100
+	hudcl.g = hudcl.g - 100
+	hudcl.b = hudcl.b - 100
 	function DScrollPanel:Paint( w, h )
 		-- BlurBackground(self)
 
 		surface.SetDrawColor(0, 0, 0, 125)
 		surface.DrawRect(0, 0, w, h)
 
-		surface.SetDrawColor( 255, 0, 0, 128)
+		surface.SetDrawColor( hudcl.r, hudcl.g, hudcl.b, 128)
         surface.DrawOutlinedRect( 0, 0, w, h, 2.5 )
 	end
 
