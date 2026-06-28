@@ -408,7 +408,6 @@ function MODE:HUDPaint()
 		draw.SimpleText("SOMEWHERE IN PLUVTOWN", "ZB_ScrappersLarge", sw / 2, sh * 0.44 - ScreenScale(2), Color(0, 0, 0, 255 * fade), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 	end
 end
-
 local CreateEndMenu
 
 net.Receive("hmcd_roundend", function()

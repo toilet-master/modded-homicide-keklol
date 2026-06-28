@@ -17,7 +17,6 @@ end
 
 --; TODO
 --; Инженер - шахид бомба + иеды
-
 MODE.SubRoles = {
 	--=\\Traitor
 	--==\\
@@ -267,30 +266,35 @@ MODE.ProfessionsRoundTypes = {
 MODE.Professions = {
 	["doctor"] = {
 		Name = "Doctor",
+		Color = Color(255,0,0),
 		SpawnFunction = function(ply)	--; TODO MAKE IT WORK
 			--; It's a bad practice to give professions any weapons or tools
 		end,
 	},
 	["huntsman"] = {
 		Name = "Huntsman",
+		Color = Color(36,7,167),
 		SpawnFunction = function(ply)
 			--; It's a bad practice to give professions any weapons or tools
 		end,
 	},
 	["engineer"] = {
 		Name = "Engineer",
+		Color = Color(255,145,0),
 		SpawnFunction = function(ply)
 			--; It's a bad practice to give professions any weapons or tools
 		end,
 	},
 	["cook"] = {
 		Name = "Cook",
+		Color = Color(255,255,255),
 		SpawnFunction = function(ply)
 			--; It's a bad practice to give professions any weapons or tools
 		end,
 	},
 	["builder"] = {
 		Name = "Builder",
+		Color = Color(166,255,0),
 		SpawnFunction = function(ply)
 			--; It's a bad practice to give professions any weapons or tools
 		end,

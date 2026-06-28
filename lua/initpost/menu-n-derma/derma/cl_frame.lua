@@ -38,6 +38,15 @@ function PANEL:Paint(w,h)
         surface.SetDrawColor(self.ColorBR)
         surface.DrawOutlinedRect(0,0,w,h,1.5)
     end
+    surface.SetDrawColor(107, 107, 107,20)
+
+    for i = 1, (ybars + 1) do
+        surface.DrawRect((sw / ybars) * i - (CurTime() * 10 % (sw / ybars)), 0, ScreenScale(0.5), sh)
+    end
+
+    for i = 1, (xbars + 1) do
+        surface.DrawRect(0, (sh / xbars) * (i - 1) + (CurTime() * 10 % (sh / xbars)), sw, ScreenScale(0.5))
+    end
 end
 
 function PANEL:SetBorder( bDraw )

@@ -329,6 +329,7 @@ MODE.Types.standard = {
 		zb.GiveRole(ply, "Police Officer", Color(15,15,255))
 	end
 }
+
 MODE.Types.wildwest = {
 	Chance = 0.05,
 	ChanceFunction = function() return (zb.GetWorldSize() < ZBATTLE_BIGMAP) and (zb.ModesChances["wildwest"] or zb.modes["hmcd"].Types.wildwest.Chance) or 0 end,
@@ -343,8 +344,6 @@ MODE.Types.wildwest = {
 		ply:Give("weapon_sogknife")
 		ply:Give("weapon_hg_type59_tpik")
 		ply:Give("weapon_adrenaline")
-		local revolver = ply:Give(math.random(2) == 2 and "weapon_winchester" or "weapon_revolver2")
-		ply:GiveAmmo(revolver:GetMaxClip1() * 1,revolver:GetPrimaryAmmoType(),true)
 		ply:Give("weapon_traitor_ied")
 		ply:Give("weapon_hg_molotov_tpik")
 		ply:Give("weapon_hg_smokenade_tpik")
@@ -398,7 +397,6 @@ MODE.Types.wildwest = {
 				--v:SetSubMaterial(table.Flip(v:GetMaterials())[hg.Appearance.FuckYouModels[sex][v:GetModel()].submatSlots.main] - 1, hg.Appearance.Clothes[sex]["formal"])
 				--v:SetPlayerColor(Vector(1,0.690196,0.537255))
 			end)
-			if v.isTraitor then continue end
 			if v.isGunner then
 				v:Give("weapon_winchester")
 				v:Give("weapon_revolver357")
@@ -414,6 +412,9 @@ MODE.Types.wildwest = {
 
 				local weapon = v:Give(guns[math.random(#guns)], true)
 				weapon:SetClip1(weapon:GetMaxClip1())
+				if v.isTraitor then
+					v:GiveAmmo(weapon:GetMaxClip1() * 1,weapon:GetPrimaryAmmoType(),true)
+				end
 			end
 
 			v:SetNetVar("CurPluv", "pluvfancy")
@@ -1278,20 +1279,13 @@ function MODE:EndRound()
 	timer.Remove("SpawnAdditionalPolice")
     timer.Remove("SpawnAdditionalNationalGuard")
 	
-
 	self.deadPoliceCount = 0
 	self.swatDeployed = false
 	self.spawnedPoliceCount = 0
 	self.roundStartType = nil
-
 	local traitors, gunners = {}, {}
 	local players_alive = 0
 	local endround, winner = zb:CheckWinner(self:CheckAlivePlayers())
-
-	-- for _, ply in player.Iterator() do	--; Extreme optimization
-		-- ply.SubRole = nil
-	-- end
-
 	for i, ply in player.Iterator() do
 		if ply.isTraitor and ply:Team() ~= TEAM_SPECTATOR then
 			traitors[#traitors + 1] = ply
@@ -1311,6 +1305,7 @@ function MODE:EndRound()
 		ply.MainTraitor = false
 		ply.SubRole = nil
 		ply.Profession = nil
+		zb.GiveSub(ply, "")
 	end
 	
 	if(not winner)then
@@ -1671,7 +1666,6 @@ function MODE.SpawnPlayers(spawn_with_subroles)
             local hands = current_ply:Give("weapon_hands_sh")
             current_ply:SetActiveWeapon(hands)
             current_ply:SetNetVar("flashlight", false)
-
             local this_player = current_ply
             
             timer.Simple(0.1, function() 
@@ -1752,11 +1746,17 @@ function MODE.SpawnPlayers(spawn_with_subroles)
                     
                     net.WriteString(this_player.Profession or "")
                 net.Send(this_player)
-                
                 local role = MODE.Roles[MODE.Type][(this_player.isTraitor and "traitor") or (this_player.isGunner and "gunner") or "innocent"]
                 if role then
                     zb.GiveRole(this_player, role.name, role.color)
                 end
+				timer.Simple(0.1,function ()
+					local pro = ((MODE.Professions[this_player.Profession] and MODE.Professions[this_player.Profession].Name or this_player.Profession) or this_player.Profession)
+					if pro then
+						zb.GiveSub(this_player, pro, pro.color)
+					end
+				end)
+				
             end)
         end
     end

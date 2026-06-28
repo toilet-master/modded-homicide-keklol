@@ -263,7 +263,6 @@ if CLIENT then
 			draw.DrawText((plyMenu.Created + count + 3) < CurTime() and "" or txt, "ZCity_Small", w / 2, h / 2.8, Color(255,255,255,15), TEXT_ALIGN_CENTER)
 		end
 		local count2 = 0
-		
 		for tab, things in pairs(inv) do
 			if not istable(things) then continue end
 			local keys = table.GetKeys(things)
