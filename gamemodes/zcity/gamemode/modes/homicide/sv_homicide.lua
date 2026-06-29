@@ -1751,9 +1751,9 @@ function MODE.SpawnPlayers(spawn_with_subroles)
                     zb.GiveRole(this_player, role.name, role.color)
                 end
 				timer.Simple(0.1,function ()
-					local pro = ((MODE.Professions[this_player.Profession] and MODE.Professions[this_player.Profession].Name or this_player.Profession) or this_player.Profession)
+					local pro = MODE.Professions[this_player.Profession]
 					if pro then
-						zb.GiveSub(this_player, pro, pro.color)
+						zb.GiveSub(this_player, pro.Name, pro.color)
 					end
 				end)
 				
