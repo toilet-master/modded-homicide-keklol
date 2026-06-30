@@ -171,9 +171,11 @@ if CLIENT then
 		if IsValid(ent) then
 			if (ent:IsPlayer() or ent:IsRagdoll()) then
 				nameStr = ent:GetPlayerName() or string.NiceName(ent:GetClass())
+			else
+				nameStr = "Container"
 			end
 		end
-		local name = nameStr .. "'s inventory" or "Container"
+		local name = nameStr == "Container" and nameStr or nameStr .. "'s inventory"
 		local sizeX, sizeY = ScrW() / 3, ScrH() / 2.5
 		plyMenu = vgui.Create("ZFrame")
 		plyMenu.ent = ent
@@ -250,6 +252,7 @@ if CLIENT then
 			end
 		end
 		local time = CurTime() + 3
+		local searchendshi = plyMenu.Created + count + 3
 		function DScrollPanel:Paint(w, h)
 			txt = "Searching"
 			if time > 0 then
@@ -260,7 +263,14 @@ if CLIENT then
 					time = CurTime() + 3
 				end
 			end
-			draw.DrawText((plyMenu.Created + count + 3) < CurTime() and "" or txt, "ZCity_Small", w / 2, h / 2.8, Color(255,255,255,15), TEXT_ALIGN_CENTER)
+			local gridChildren = IsValid(grid) and grid:GetChildren() or {}
+			local statusText = ""
+			if #gridChildren <= 0 then
+				statusText = "Nothing's here!"
+			elseif searchendshi >= CurTime() then
+				statusText = txt
+			end
+			draw.DrawText(statusText, "ZCity_Small", w / 2, h / 2.8, Color(255,255,255,25), TEXT_ALIGN_CENTER)
 		end
 		local count2 = 0
 		for tab, things in pairs(inv) do

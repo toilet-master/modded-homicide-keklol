@@ -120,6 +120,7 @@ if CLIENT then
 	local colWhite = Color(255, 255, 255, 255)
 	local colblue = Color(40,40,160)
 	local colred = Color(160,40,40)
+	local color_red = Color(255,0,0)
 	local lerpthing = 0
 	function SWEP:DrawHUD()
 		if GetViewEntity() ~= LocalPlayer() then return end

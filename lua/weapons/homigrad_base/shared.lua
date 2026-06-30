@@ -1554,7 +1554,7 @@ hg.postureFunctions2 = {
 		else
 			self.AdditionalPosPreLerp[3] = self.AdditionalPosPreLerp[3] + 1 
 			self.AdditionalPosPreLerp[2] = self.AdditionalPosPreLerp[2] - 8
-			self.AdditionalPosPreLerp[1] = self.AdditionalPosPreLerp[1] + -2 - 5 * math.Clamp(-ply:EyeAngles()[1] / 20, 0, 0.5)
+			--self.AdditionalPosPreLerp[1] = self.AdditionalPosPreLerp[1] + -2 - 5 * math.Clamp(-ply:EyeAngles()[1] / 20, 0, 0.5)
 		end
 		self.AdditionalAngPreLerp:Add((self:IsPistolHoldType() and angPosture7) or (ply:IsFlagSet(FL_ANIMDUCKING) and angPosture8 or angPosture4))
 	end,
