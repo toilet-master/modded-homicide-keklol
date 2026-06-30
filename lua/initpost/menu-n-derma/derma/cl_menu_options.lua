@@ -115,7 +115,7 @@ hg.settings:AddOpt("Blood","hg_blood_sprites", "Blood Sprites (DISABLED FOR EVER
 hg.settings:AddOpt("Blood","hg_old_blood", "Old blood")
 
 hg.settings:AddOpt("UI","hg_font", "Change Custom Font", false, true)
-hg.settings:AddOpt("UI","hg_hudcolor", "Change Hud Color", nil, nil, "int")
+--hg.settings:AddOpt("UI","hg_hudcolor", "Change Hud Color", nil, nil, "int")
 
 hg.settings:AddOpt("Weapons","hg_weaponshotblur_enable", "Shooting Blur")
 hg.settings:AddOpt("Weapons","hg_dynamic_mags", "Dynamic Ammo Inspect")
