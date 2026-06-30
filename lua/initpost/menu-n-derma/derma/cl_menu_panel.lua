@@ -1,8 +1,40 @@
 hg.hudcolor = hg.hudcolor or {}
 local PANEL = {}
+local chng = {}
 local curent_panel
 DISCORD_URL = "https://discord.gg/475EmEdTgH"
+local text = {
+    "Type hg_hudcolor 255 255 255 or any other rgb color to change hud color",
+    "Patched some stuff",
+    "Press action menu to see your occupation in homicide",
+    "Changelog button"
+}
+function chng:changelogshi()
+    local sizeX, sizeY = ScrW() / 1.5, ScrH() / 1.5
+	local chn = vgui.Create("ZFrame")
 
+	chn:SetTitle("Changelog")
+	chn:SetSize(sizeX, sizeY)
+	chn:Center()
+	chn:MakePopup()
+	chn:SetKeyBoardInputEnabled(false)
+	chn:ShowCloseButton(true)
+	chn:SetVisible(true)
+    local DScrollPanel = vgui.Create("DScrollPanel", chn)
+    DScrollPanel:Dock(FILL)
+
+    for i, v in pairs(text) do
+        local label = DScrollPanel:Add("DLabel")
+        label:SetText("-"..v..".")
+        label:SetFont("HomigradFontBig")
+        label:Dock(TOP)
+        label:DockMargin(0, 0, 0, 5)
+        label:SetTextColor(Color(255, 255, 255))
+        label:SizeToContents()
+        label:SetWrap(true)
+        label:SetAutoStretchVertical(true)
+    end
+end
 local Selects = {
     {Title = "Disconnect", Func = function(luaMenu) RunConsoleCommand("disconnect") end},
     {Title = "Main Menu", Func = function(luaMenu) gui.ActivateGameUI() luaMenu:Close() end},
@@ -74,6 +106,9 @@ local Selects = {
     end},
     {Title = "Settings", Func = function(luaMenu,pp) 
         hg.DrawSettings(pp) 
+    end},
+    {Title = "Changelog", Func = function(luaMenu,pp) 
+        chng:changelogshi()
     end},
     {Title = "Appearance", Func = function(luaMenu,pp) hg.CreateApperanceMenu(pp) end},
     {Title = "Return", Func = function(luaMenu) luaMenu:Close() end},

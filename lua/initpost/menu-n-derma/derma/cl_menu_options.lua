@@ -7,9 +7,9 @@ function hg.settings:AddOpt( strCategory, strConVar, strTitle, bDecimals, bStrin
 end
 local hg_firstperson_death = CreateClientConVar("hg_firstperson_death", "0", true, false, "Toggle first-person death camera view", 0, 1)
 local hg_font = CreateClientConVar("hg_font", "Bahnschrift", true, false, "change every text font to selected because ui customization is cool")
-local hg_hudcolor = CreateClientConVar("hg_hudcolor", 1, true, false, "Choose from 9 colors!", 1, 9)
+local hg_hudcolor = CreateClientConVar("hg_hudcolor", "199 2 2", true, false, "Choose hud color cuz its cool yea very")
 local hg_attachment_draw_distance = CreateClientConVar("hg_attachment_draw_distance", 0, true, nil, "distance to draw attachments", 0, 4096)
-function hg.hudcolor:colorchange()
+--[[function hg.hudcolor:colorchange()
     local colors = {
         Color(155,0,0),
         Color(52,146,235),
@@ -23,6 +23,11 @@ function hg.hudcolor:colorchange()
     }
     local pickedcolor = colors[hg_hudcolor:GetInt()]
     return pickedcolor
+end]]
+function  hg.hudcolor:colorchange()
+    local hehe = hg_hudcolor:GetString()
+    local r, g, b = string.match(hehe, "(%d+)%s+(%d+)%s+(%d+)")
+    return Color(tonumber(r) or 199, tonumber(g) or 2, tonumber(b) or 2)
 end
 function hg.hudcolor:colorstring()
     local cl = hg.hudcolor:colorchange()
