@@ -958,21 +958,20 @@ hook.Add("Player-Ragdoll think", "organism-think-client-blood", function(ply, en
 	end
 end)
 
-local grub = Model("models/grub_nugget_small.mdl")
 local vecalmostzero = Vector(0.01, 0.01, 0.01)
 
 local modelPlacements = {
 	[1] = {
-		["ValveBiped.Bip01_L_Calf"] = {Vector(15.5, 0, 0), Angle(0, 90, 0)},
-		["ValveBiped.Bip01_R_Calf"] = {Vector(15.5, 0, 0), Angle(0, 90, 0)},
-		["ValveBiped.Bip01_R_Forearm"] = {Vector(11, 0.5, 0.5), Angle(0, 90, 0)},
-		["ValveBiped.Bip01_L_Forearm"] = {Vector(11, 0.5, -0.5), Angle(0, 90, 0)},
+		["ValveBiped.Bip01_L_Calf"] = {Vector(13, -0.15, 0), Angle(90, 0, 0)},
+		["ValveBiped.Bip01_R_Calf"] = {Vector(13, -0.15, 0), Angle(90, 0, 0)},
+		["ValveBiped.Bip01_R_Forearm"] = {Vector(8.9, 0.5, 0.5), Angle(90, 0, 0)},
+		["ValveBiped.Bip01_L_Forearm"] = {Vector(8.9, 0.5, -0.5), Angle(90, 0, 0)},
 	},
 	[0] = {
-		["ValveBiped.Bip01_L_Calf"] = {Vector(17.5, 0, 0), Angle(0, 90, 0)},
-		["ValveBiped.Bip01_R_Calf"] = {Vector(17.5, 0, 0), Angle(0, 90, 0)},
-		["ValveBiped.Bip01_R_Forearm"] = {Vector(11, 0.5, 0.5), Angle(0, 90, 0)},
-		["ValveBiped.Bip01_L_Forearm"] = {Vector(11, 0, -1), Angle(0, 90, 0)},
+		["ValveBiped.Bip01_L_Calf"] = {Vector(15, -0.35, 0), Angle(90, 0, 0)},
+		["ValveBiped.Bip01_R_Calf"] = {Vector(15, -0.35, 0), Angle(90, 0, 0)},
+		["ValveBiped.Bip01_R_Forearm"] = {Vector(9, 0, 0.8), Angle(90, 0, 0)},
+		["ValveBiped.Bip01_L_Forearm"] = {Vector(9, 0, -0.8), Angle(90, 0, 0)},
 	}
 }
 
@@ -1017,6 +1016,10 @@ function hg.GoreCalc(ent, ply)
 		end
 		
 		local bon = ent:LookupBone(nam)
+		local legs = {
+			["ValveBiped.Bip01_R_Calf"] = true,
+			["ValveBiped.Bip01_L_Calf"] = true
+		}
 		local mat = ent:GetBoneMatrix(bon)
 		local mat2 = ent:GetBoneMatrix(bon - 1)
 		mat:SetScale(vecalmostzero)
@@ -1032,12 +1035,10 @@ function hg.GoreCalc(ent, ply)
 		if !modelPlacements[fem][nam] then continue end
 
 		local pos, ang = LocalToWorld(modelPlacements[fem][nam][1], modelPlacements[fem][nam][2], mat2:GetTranslation(), mat2:GetAngles())
-		
 		if !IsValid(headboom_mdl) then
-			headboom_mdl = ClientsideModel(grub)
+			headboom_mdl = ClientsideModel("models/mosi/fnv/props/character/armcap.mdl")
+			headboom_mdl:SetModelScale(1)
 			headboom_mdl:SetNoDraw(true)
-			headboom_mdl:SetSubMaterial(0, "models/flesh")
-			headboom_mdl:SetModelScale(0.8)
 		end
 		
 		headboom_mdl:SetRenderOrigin(pos)

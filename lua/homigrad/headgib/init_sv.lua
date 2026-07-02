@@ -48,41 +48,54 @@ local vector_up = Vector(0,0,1)
 local function PhysCallback( ent, data )
 	if data.DeltaTime < 0.2 then return end
 	ent:EmitSound("physics/flesh/flesh_squishy_impact_hard"..math.random(4)..".wav")
-
+	--print(ent:GetName()) mm cool thing to use for physics shit thank you meister грустный салат
 	util.Decal("Normal.Blood24", data.HitPos - data.HitNormal * 1, data.HitPos + data.HitNormal * 1, ent)
 end
 
-local grub, mat, gamemod = Model("models/grub_nugget_small.mdl"), "models/flesh", engine.ActiveGamemode()
-local meatModels = {
-	Model("models/props_junk/watermelon01_chunk02a.mdl"),
-	Model("models/grub_nugget_small.mdl")
-}
+local gamemod = engine.ActiveGamemode()
 local gibRemoveTime = 60 --120
-function SpawnMeatGore(mainent, pos, count, force, scale)
+function SpawnMeatGore(mainent, pos, count, force, scale, models)
 	force = force or Vector(0,0,0)
-	for i = 1, (count or math.random(8, 10)) do
-		local ent = ents_Create("prop_physics")
-		ent:SetModel(meatModels[math.random(#meatModels)])
-		ent:SetSubMaterial(0, mat)
-		ent:SetPos(pos)
-		ent:SetCollisionGroup(COLLISION_GROUP_DEBRIS)
-		ent:SetModelScale(math.Rand(0.8,1.1) * (scale or 1))
-		ent:SetAngles(AngleRand(-180,180))
-		ent:Activate()
-		ent:Spawn()
-		local phys = ent:GetPhysicsObject()
-		if IsValid(phys) then
-			phys:SetVelocity(mainent:GetVelocity() + VectorRand(-65,65) + force / 10)
-			phys:AddAngleVelocity(VectorRand(-65,65))
+	if models then
+		for i,v in pairs (models) do
+			local ent = ents_Create("prop_physics")
+			ent:SetModel(v)
+			ent:SetPos(pos)
+			ent:SetCollisionGroup(COLLISION_GROUP_DEBRIS)
+			ent:SetAngles(AngleRand(-180,180))
+			ent:Activate()
+			ent:Spawn()
+			local phys = ent:GetPhysicsObject()
+			if IsValid(phys) then
+				phys:SetVelocity(mainent:GetVelocity() + VectorRand(-65,65) + force / 10)
+				phys:AddAngleVelocity(VectorRand(-65,65))
+			end
+			if zb.CROUND and zb.CROUND ~= "hmcd" or gamemod == "sandbox" then
+				ent:DrawShadow(false)
+				SafeRemoveEntityDelayed(ent, gibRemoveTime)
+			end
+			ent:AddCallback( "PhysicsCollide", PhysCallback )
 		end
-
-		if zb.CROUND and zb.CROUND ~= "hmcd" or gamemod == "sandbox" then
-			ent:DrawShadow(false)
-			ent:SetModelScale(0, gibRemoveTime)
-			SafeRemoveEntityDelayed(ent, gibRemoveTime)
+	else --shit code maybe?!? Idfk
+		for i=1, (count or math.random(8, 10)) do
+			local ent = ents_Create("prop_physics")
+			ent:SetModel("models/mosi/fnv/props/gore/meatbit0"..math.random(1,3)..".mdl")
+			ent:SetPos(pos)
+			ent:SetCollisionGroup(COLLISION_GROUP_DEBRIS)
+			ent:Activate()
+			ent:Spawn()
+			local phys = ent:GetPhysicsObject()
+			if IsValid(phys) then
+				phys:SetVelocity(mainent:GetVelocity() + VectorRand(-65,65) + force / 10)
+				phys:AddAngleVelocity(VectorRand(-65,65))
+			end
+			if zb.CROUND and zb.CROUND ~= "hmcd" or gamemod == "sandbox" then
+				ent:DrawShadow(false)
+				ent:SetModelScale(0, gibRemoveTime)
+				SafeRemoveEntityDelayed(ent, gibRemoveTime)
+			end
+			ent:AddCallback( "PhysicsCollide", PhysCallback )
 		end
-
-		ent:AddCallback( "PhysicsCollide", PhysCallback )
 	end
 end
 
@@ -104,6 +117,13 @@ util.PrecacheModel(headboom_mdl)
 for _, snd in ipairs(sounds) do
 	util.PrecacheSound(snd)
 end
+local boomboom = {
+	"models/mosi/fnv/props/gore/gorehead02.mdl",
+	"models/mosi/fnv/props/gore/gorehead03.mdl",
+	"models/mosi/fnv/props/gore/gorehead04.mdl",
+	"models/mosi/fnv/props/gore/gorehead05.mdl",
+	"models/mosi/fnv/props/gore/gorehead06.mdl"
+}
 function Gib_Input(rag, bone, force)
 	if not IsValid(rag) then return end
 	
@@ -141,7 +161,7 @@ function Gib_Input(rag, bone, force)
 		ent:SetParent(rag, 3)--rag:LookupBone("ValveBiped.Bip01_Head1"))
 		ent:Spawn()
 
-		SpawnMeatGore(ent, pos, nil, force) --модельки поменять и будет эпик
+		SpawnMeatGore(ent, pos, nil, force, 1, boomboom) --модельки поменять и будет эпик. Поменял братан
 
 		local armors = rag:GetNetVar("Armor",{})
 

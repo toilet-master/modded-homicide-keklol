@@ -160,6 +160,13 @@ local sounds = {
 }
 
 local ents_Create = ents.Create
+--"models/mosi/fnv/props/gore/gorelegb03.mdl" why is this shit so big lol
+local meatyshit = {
+	["ValveBiped.Bip01_L_Forearm"] = {"models/mosi/fnv/props/gore/gorearm02.mdl","models/mosi/fnv/props/gore/gorearm03.mdl"},
+	["ValveBiped.Bip01_R_Forearm"] = {"models/mosi/fnv/props/gore/gorearm02.mdl","models/mosi/fnv/props/gore/gorearm03.mdl"},
+	["ValveBiped.Bip01_L_Calf"] = {"models/mosi/fnv/props/gore/goreleg02.mdl", "models/mosi/fnv/props/gore/goreleg01.mdl"},
+	["ValveBiped.Bip01_R_Calf"] = {"models/mosi/fnv/props/gore/goreleg02.mdl", "models/mosi/fnv/props/gore/goreleg01.mdl"}
+}
 function hg.organism.AmputateLimb(org, limb)
 	if org[limb.."amputated"] == nil then return end
 
@@ -169,7 +176,7 @@ function hg.organism.AmputateLimb(org, limb)
 	local vec = Vector(len, 0, 0)
 	local ang = Angle()
 	local boneup = org.owner:GetBoneName(org.owner:LookupBone(bone) - 1)
-	
+	if not org.superfighter then
 	local wnds = {}
 
 	for i, tbl in pairs(org.arterialwounds) do
@@ -178,9 +185,9 @@ function hg.organism.AmputateLimb(org, limb)
 		end
 	end
 	table.insert(wnds, {10, vec, ang, boneup, CurTime(), Vector(-100, 0, 0), bone.."artery"})
-	
-	org.arterialwounds = wnds
-	org.owner:SetNetVar("arterialwounds", wnds)
+		org.arterialwounds = wnds
+		org.owner:SetNetVar("arterialwounds", wnds)
+	end
 
 	org[limb.."amputated"] = true
 
@@ -194,7 +201,8 @@ function hg.organism.AmputateLimb(org, limb)
 	org.owner:EmitSound(sounds[math.random(#sounds)], 70, math.random(95, 105), 2)
 	
 	local ent = hg.GetCurrentCharacter(org.owner)
-	SpawnMeatGore(ent, select(1, ent:GetBonePosition(ent:LookupBone(bone))), 4)
+	--print(bone)
+	SpawnMeatGore(ent, select(1, ent:GetBonePosition(ent:LookupBone(bone))), 1,	Vector(0,0,0) , 1,meatyshit[bone])
 
 	hook.Run("OnAmputateLimb", org, ent, limb)
 

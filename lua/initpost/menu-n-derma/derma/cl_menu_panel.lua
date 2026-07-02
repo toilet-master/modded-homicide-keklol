@@ -8,6 +8,7 @@ local text = {
     "Patched some stuff",
     "Press action menu to see your occupation in homicide",
     "Changelog button"
+    "Gore models"
 }
 function chng:changelogshi()
     local sizeX, sizeY = ScrW() / 1.5, ScrH() / 1.5

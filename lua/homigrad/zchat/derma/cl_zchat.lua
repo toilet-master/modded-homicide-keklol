@@ -1,5 +1,5 @@
 --made by mrrp :3
-
+hg.hudcolor = hg.hudcolor or {}
 local maxLength = GetConVar("zchat_maxmessagelength")
 
 local NoDrop = CreateClientConVar("zchat_dropcharacters", 1, true, false, "Play the character dropping animation when erasing text", 0, 1)
@@ -270,7 +270,7 @@ local gray = Color(255, 255, 255, 100)
 local black = Color(0, 0, 0, 200)
 
 function PANEL:Paint(w, h)
-	surface.SetDrawColor(247, 67, 67, 100 + math.sin(CurTime()) * 30)
+	surface.SetDrawColor(hg.hudcolor:colorchange(), 100 + math.sin(CurTime()) * 30)
 	surface.SetMaterial(gradient_d)
 	surface.DrawTexturedRect(0, h * 0.5, w, h * 0.5)
 
