@@ -7,7 +7,7 @@ local text = {
     "Type hg_hudcolor 255 255 255 or any other rgb color to change hud color",
     "Patched some stuff",
     "Press action menu to see your occupation in homicide",
-    "Changelog button"
+    "Changelog button",
     "Gore models"
 }
 function chng:changelogshi()
