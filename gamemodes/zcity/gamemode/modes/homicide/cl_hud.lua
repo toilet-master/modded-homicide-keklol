@@ -39,18 +39,6 @@ local function draw_RotatedText(text, font, x, y, color, ang, scale)
 	render.PopFilterMag()
 	render.PopFilterMin()
 end
---[[hook.Add("HUDPaint", "TTT_traps", function()
-    for _, button in ipairs(ents.FindByClass("ttt_traitor_button")) do
-   		local pos = button:GetPos() + button:OBBCenter()
-		local tscr = pos:ToScreen()
-        local txt = "Trap"
-        surface.SetFont( "ZB_InterfaceMedium" )
-        surface.SetTextColor(Color(255,0,0))
-        surface.GetTextSize(txt)
-       	surface.SetTextPos(tscr.x, tscr.y)
-        surface.DrawText(txt)
-	end
-end)]]
 hook.Add("HUDPaint", "HMCD_SubRoles_Abilities", function()
 	local ply = LocalPlayer()
 	local aim_ent, other_ply, trace = MODE.GetPlayerTraceToOther(ply)

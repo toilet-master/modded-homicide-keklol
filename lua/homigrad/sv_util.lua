@@ -1191,6 +1191,7 @@ local TrackedModelsa = {
 	["models/weapons/w_knife_t.mdl"] = "weapon_pocketknife",
 	["models/weapons/w_knife_ct.mdl"] = "weapon_pocketknife",
 	["models/props_canal/mattpipe.mdl"] = "weapon_leadpipe",
+	["models/props_mining/pickaxe01.mdl"] = "weapon_hg_pickaxe",
 }
 
 local TrackedModels = {}
