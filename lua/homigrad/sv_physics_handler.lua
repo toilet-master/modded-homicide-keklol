@@ -1,4 +1,4 @@
-local server_is_crashed = false
+--[[local server_is_crashed = false
 
 local physenv, RunConsoleCommand, game = physenv, RunConsoleCommand, game
 local physenv_GetPhysicsPaused = physenv.GetPhysicsPaused
@@ -38,3 +38,4 @@ hook.Add("OnCrazyPhysics", "stop_physics", function(ent, phys)
 		physenv.SetPhysicsPaused(true)
 	end
 end)
+]]
