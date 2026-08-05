@@ -572,11 +572,7 @@ MODE.Types.soe = {
 		ply:SetNetVar("Inventory",inv)
 	end,
 	GunManLoot = function(ply)
-		local gun = ply:Give( ( math.random(1,2) > 1 and "weapon_remington870" ) or "weapon_kar98" )
-		ply.organism.recoilmul = 1.0
-		if gun:GetClass() == "weapon_kar98" then
-			hg.AddAttachmentForce(ply,gun,"optic12")
-		end
+
 		local inv = ply:GetNetVar("Inventory")
 		inv["Weapons"]["hg_sling"] = true
 		ply:SetNetVar("Inventory",inv)
@@ -1616,11 +1612,22 @@ function MODE.SpawnPlayers(spawn_with_subroles)
 
                 if(current_ply.isGunner)then
                     MODE.Types[MODE.Type].GunManLoot(current_ply)
+					local sub_role_id = MODE.Type == "soe" and (current_ply:GetInfo(MODE.ConVarName_SubRole_Gunman) or "gunman_shotgunner")
+					sub_role = sub_role_id
                 end
 
                 if(sub_role)then
-                    if(current_ply.isGunner)then
-
+                    if(current_ply.isGunner) then
+						if MODE.Type == "soe" then
+							local role_info = MODE.SubRoles[sub_role]
+							if(!role_info or !MODE.RoleChooseRoundTypes[MODE.Type].Gunman[sub_role])then
+                        		sub_role = MODE.RoleChooseRoundTypes[MODE.Type].GunmanDefaultRole or "gunman_shotgunner"
+                        		role_info = MODE.SubRoles[sub_role]
+                    		end
+							local spawn_func = role_info.SpawnFunction
+                            current_ply.SubRole = sub_role
+                            spawn_func(current_ply)
+						end
                     elseif(current_ply.isTraitor)then
                         local role_info = MODE.SubRoles[sub_role]
                         if(!role_info or !MODE.RoleChooseRoundTypes[MODE.Type].Traitor[sub_role])then

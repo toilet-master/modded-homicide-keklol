@@ -6,7 +6,7 @@ SWEP.Category = "Weapons - Melee"
 SWEP.Spawnable = true
 SWEP.AdminOnly = false
 
-SWEP.WorldModel = "models/weapons/w_knife_swch.mdl"
+SWEP.WorldModel = "models/weapons/w_knife_switch.mdl"
 SWEP.WorldModelReal = "models/weapons/salat/reanim/c_s&wch0014.mdl"
 SWEP.WorldModelExchange = false
 
@@ -59,7 +59,7 @@ SWEP.BleedMultiplier = 1.5
 
 SWEP.MaxPenLen = 3
 
-SWEP.PainMultiplier = 0.5
+SWEP.PainMultiplier = 0.8
 
 SWEP.PenetrationSizePrimary = 1.5
 SWEP.PenetrationSizeSecondary = 1

@@ -621,7 +621,10 @@ net.Receive("HMCD(StartPlayersRoleSelection)", function()
 
 	hg.SelectPlayerRole(role)
 end)
-
+local function PaintButton(self,w,h,colorr)
+    surface.SetDrawColor(colorr.r, colorr.g, colorr.b, 108)
+    surface.DrawTexturedRect( 0, 0, w, h )
+end
 function hg.SelectPlayerRole(role, mode)
 	role = role or "Traitor"
 	mode = mode or "soe"

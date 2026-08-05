@@ -152,7 +152,6 @@ local PANEL = {}
 
 function PANEL:Construct()
 	self:SetSkin(hg.GetMainSkin())
-	
 	self.RolesIDsList = self.RolesIDsList or MODE.RoleChooseRoundTypes["standard"].Traitor
 	local width, height = self:GetSize()
 	local dock_bottom = 5

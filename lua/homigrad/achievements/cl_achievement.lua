@@ -6,10 +6,6 @@ hg.achievements.achievements_data.created_achevements = {}
 hg.achievements.MenuPanel = hg.achievements.MenuPanel or nil
 
 local curent_panel_ach  
-concommand.Add("hg_achievements",function()
-    --hg.DrawAchievmentsMenu() doesn't work as for 15.02.2026 | from bogler with love 🥴
-    print('use esc menu')
-end)
 
 BlurBackground = BlurBackground or hg.DrawBlur
 local gradient_u = Material("vgui/gradient-u")
@@ -209,7 +205,7 @@ function hg.DrawAchievmentsMenu(ParentPanel)
     frame2:Center()
     frame2:SetPos(frame:GetX()+frame:GetWide(),frame:GetY())
     frame2.Paint = function(self,w,h)
-        surface.SetDrawColor(92,0,0,108)
+        surface.SetDrawColor(161,72,72,108)
         surface.SetMaterial(gradient_d)
         surface.DrawTexturedRect(0,0,w,h)
         surface.SetDrawColor(40,36,36,255)

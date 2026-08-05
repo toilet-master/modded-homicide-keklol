@@ -9,10 +9,12 @@ MODE.TraitorExpectedAmtBits = 13
 --\\Sub Roles
 MODE.ConVarName_SubRole_Traitor_SOE = "hmcd_subrole_traitor_soe"
 MODE.ConVarName_SubRole_Traitor = "hmcd_subrole_traitor"
+MODE.ConVarName_SubRole_Gunman = "hmcd_subrole_gunman"
 
 if(CLIENT)then
 	MODE.ConVar_SubRole_Traitor_SOE = CreateClientConVar(MODE.ConVarName_SubRole_Traitor_SOE, "traitor_default_soe", true, true, "Select traitor role in State of Emergency homicide mode")
 	MODE.ConVar_SubRole_Traitor = CreateClientConVar(MODE.ConVarName_SubRole_Traitor, "traitor_default", true, true, "Select murder role in Standard homicide modes")
+	MODE.ConVar_SubRole_Gunman_SOE = CreateClientConVar(MODE.ConVarName_SubRole_Gunman, "gunman_shotgunner", true, true, "Select gunman role in State of Emergency homicide mode")
 end
 
 --; TODO
@@ -210,50 +212,45 @@ Can detect presence and potency of chemical agents in the air.]],
 			CleanChemicalsOfPlayer(ply)
 		end,
 	},
-	--==//
-	-- ["traitor_demoman"] = {
-		-- Name = "Demoman",
-		-- Description = [[Has many explosives.
--- Can rig certain items with bombs
--- (Radio, certain consumables, etc.)]],
-		-- Objective = "You're the ultimate chemist who decided to use knowledge to hurt others.",
-		-- SpawnFunction = function(ply)
-			-- ply:Give("weapon_sogknife")
-			-- ply:Give("weapon_adrenaline")
-			-- ply:Give("weapon_hg_rgd_tpik")
-			-- ply:Give("weapon_hg_pipebomb_tpik")
-			-- ply:Give("weapon_hg_smokenade_tpik")
-			-- ply:Give("weapon_traitor_ied")
-			-- ply:Give("weapon_walkie_talkie")
-			
-			-- ply.organism.stamina.max = 220
-			-- local inv = ply:GetNetVar("Inventory", {})
-			-- inv["Weapons"]["hg_flashlight"] = true
-			
-			-- ply:SetNetVar("Inventory", inv)
-		-- end,
-	-- },
-	["traitor_zombie"] = {
-		Name = "Zombie",
-		Description = [[Can infect other players silently.
-Infected players can be cured by a doctor.
-If all players are cured zombie will lose.
-Instead of dying will be randomly transported to another infected player's body.
-Has no weapons or any tools.
-Despite being zombie, still bears appearance of a normal human.]],
-		Objective = "You're the zombie. Infect everyone to win. Avoid doctor.",
+	["gunman_hunter"] = {
+		Name = "Hunter",
+		Description = [[Equipped with a bow.]],
+		Objective = "You were hunting deers when you suddenly found a corpse of your friend. You've decided to take a revenge on traitor using a bow.",
 		SpawnFunction = function(ply)
-			-- ply:Give("weapon_sogknife")	
-			-- ply:Give("weapon_adrenaline")
-			
-			-- ply.organism.stamina.max = 220
-			-- local inv = ply:GetNetVar("Inventory", {})
-			-- inv["Weapons"]["hg_flashlight"] = true
-			
-			-- ply:SetNetVar("Inventory", inv)
+			local bow = ply:Give("weapon_hg_bow")
+			ply:GiveAmmo(bow:GetMaxClip1() * 10, bow:GetPrimaryAmmoType(), true)
+			ply.organism.stamina.max = 120
 		end,
 	},
-	--=//
+	["gunman_rifleman"] = {
+		Name = "Rifleman",
+		Description = [[Equipped with silenced mosin nagant.]],
+		Objective = "You were sent here by the law to protect innocent.",
+		SpawnFunction = function(ply)
+			ply.organism.recoilmul = 1.0
+			local gun = ply:Give("weapon_mosin")
+			hg.AddAttachmentForce(ply,gun,"supressor1")
+		end,
+	},
+	["gunman_shotgunner"] = {
+		Name = "Shotgunner",
+		Description = [[Equipped with silenced mosin nagant.]],
+		Objective = "You were sent here by the law to protect innocent.",
+		SpawnFunction = function(ply)
+			ply.organism.recoilmul = 1.0
+			ply:Give("weapon_remington870")
+		end,
+	},
+	["gunman_sniper"] = {
+		Name = "Sniper",
+		Description = [[Equipped with silenced mosin nagant.]],
+		Objective = "You were sent here by the law to protect innocent.",
+		SpawnFunction = function(ply)
+			ply.organism.recoilmul = 0.4
+			ply:Give("weapon_kar98")
+			hg.AddAttachmentForce(ply,gun,"optic12")
+		end,
+	},
 }
 --//
 
@@ -340,12 +337,19 @@ MODE.RoleChooseRoundTypes = {
 	},
 	["soe"] = {
 		TraitorDefaultRole = "traitor_default_soe",
+		GunmanDefaultrole = "gunman_shotgunner",
 		Traitor = {
 			["traitor_default_soe"] = true,
 			["traitor_infiltrator_soe"] = true,
 			-- ["traitor_chemist_soe"] = true,
 			["traitor_assasin_soe"] = true,
 			-- ["traitor_demoman_soe"] = true,
+		},
+		Gunman = {
+			["gunman_shotgunner"] = true,
+			["gunman_hunter"] = true,
+			["gunman_sniper"] = true,
+			["gunman_rifleman"] = true,
 		},
 		Professions = {
 			["doctor"] = {

@@ -1,6 +1,5 @@
 hg.hudcolor = hg.hudcolor or {}
 local PANEL = {}
-local chng = {}
 local curent_panel
 DISCORD_URL = "https://discord.gg/475EmEdTgH"
 local text = {
@@ -8,9 +7,10 @@ local text = {
     "Patched some stuff",
     "Press action menu to see your occupation in homicide",
     "Changelog button",
-    "Gore models"
+    "Gore models",
+    "An ability to change gunman's role",
 }
-function chng:changelogshi()
+local function changelogshi()
     local sizeX, sizeY = ScrW() / 1.5, ScrH() / 1.5
 	local chn = vgui.Create("ZFrame")
 
@@ -40,66 +40,10 @@ local Selects = {
     {Title = "Disconnect", Func = function(luaMenu) RunConsoleCommand("disconnect") end},
     {Title = "Main Menu", Func = function(luaMenu) gui.ActivateGameUI() luaMenu:Close() end},
     {Title = "Discord", Func = function(luaMenu) luaMenu:Close() gui.OpenURL(DISCORD_URL)  end},
-    {Title = "Traitor Role",
-    GamemodeOnly = true,
-    CreatedFunc = function(self, parent, luaMenu)
-        local btn = vgui.Create( "DLabel", self )
-        btn:SetText( "SOE" )
-        btn:SetMouseInputEnabled( true )
-        btn:SizeToContents()
-        btn:SetFont( "ZCity_Small" )
-        btn:SetTall( ScreenScale( 15 ) )
-        btn:Dock(BOTTOM)
-        btn:DockMargin(ScreenScale(20),ScreenScale(10),0,0)
-        btn:SetTextColor(Color(255,255,255))
-        btn:InvalidateParent()
-        btn.RColor = Color(225, 225, 225, 0)
-        btn.WColor = Color(225, 225, 225, 255)
-        btn.x = btn:GetX()
-
-        function btn:DoClick()
-            luaMenu:Close()
-            hg.SelectPlayerRole(nil, "soe")
-        end
-    
-        local selfa = self
-        function btn:Think()
-            self.HoverLerp = selfa.HoverLerp
-            self.HoverLerp2 = LerpFT(0.2, self.HoverLerp2 or 0, self:IsHovered() and 1 or 0)
-                
-            self:SetTextColor(self.RColor:Lerp(self.WColor:Lerp(hg.hudcolor:colorchange(), self.HoverLerp2), self.HoverLerp))
-            self:SetX(self.x + ScreenScaleH(40) + self.HoverLerp * ScreenScaleH(50))
-        end
-
-        local btn = vgui.Create( "DLabel", btn )
-        btn:SetText( "STD" )
-        btn:SetMouseInputEnabled( true )
-        btn:SizeToContents()
-        btn:SetFont( "ZCity_Small" )
-        btn:SetTall( ScreenScale( 15 ) )
-        btn:Dock(BOTTOM)
-        btn:DockMargin(0,ScreenScale(2),0,0)
-        btn:SetTextColor(Color(255,255,255))
-        btn:InvalidateParent()
-        btn.RColor = Color(225, 225, 225, 0)
-        btn.WColor = Color(225, 225, 225, 255)
-        btn.x = btn:GetX()
-
-        function btn:DoClick()
-            luaMenu:Close()
-            hg.SelectPlayerRole(nil, "standard")
-        end
-    
-        function btn:Think()
-            self.HoverLerp = selfa.HoverLerp
-            self.HoverLerp2 = LerpFT(0.2, self.HoverLerp2 or 0, self:IsHovered() and 1 or 0)
-    
-            self:SetTextColor(self.RColor:Lerp(self.WColor:Lerp(hg.hudcolor:colorchange(), self.HoverLerp2), self.HoverLerp))
-            self:SetX(self.x + ScreenScaleH(35))
-        end
-    end,
-    Func = function(luaMenu)
-        
+    {Title = "Pick Role",
+    GamemodeOnly = false,     
+    Func = function(luaMenu, pp)
+        hg.DrawLoadoutMenu(pp)
     end,
     },
     {Title = "Achievements", Func = function(luaMenu,pp) 
@@ -109,7 +53,7 @@ local Selects = {
         hg.DrawSettings(pp) 
     end},
     {Title = "Changelog", Func = function(luaMenu,pp) 
-        chng:changelogshi()
+        changelogshi()
     end},
     {Title = "Appearance", Func = function(luaMenu,pp) hg.CreateApperanceMenu(pp) end},
     {Title = "Return", Func = function(luaMenu) luaMenu:Close() end},
@@ -336,7 +280,7 @@ function PANEL:AddSelect( pParent, strTitle, tbl )
 
         if (crw ~= targetText) or (curent_panel == string.lower(strTitle)) then
             local ntxt = ""
-            local will_text = (curent_panel == string.lower(strTitle) and not strTitle == 'Traitor Role') and '[ '..string.upper(strTitle)..' ]' or strTitle
+            local will_text = (curent_panel == string.lower(strTitle) and not strTitle == 'Pick Role') and '[ '..string.upper(strTitle)..' ]' or strTitle
             for i = 1, #will_text do
                 local char = will_text:sub(i, i)
                 if i <= math.ceil(#will_text * v) then
