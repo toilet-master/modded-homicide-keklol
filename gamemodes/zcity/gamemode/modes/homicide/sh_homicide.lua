@@ -29,7 +29,7 @@ You've prepared for a long time.
 You are equipped with various weapons, poisons and explosives, grenades and your favourite heavy duty knife and a zoraki signal pistol to help you kill.]],
 		Objective = "You're geared up with items, poisons, explosives and weapons hidden in your pockets. Murder everyone here.",
 		SpawnFunction = function(ply)
-			local wep = ply:Give("weapon_zoraki")
+			local wep = ply:Give("weapon_osapb")
 			
 			timer.Simple(1, function()
 				wep:ApplyAmmoChanges(2)
