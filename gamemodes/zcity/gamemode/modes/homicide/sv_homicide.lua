@@ -157,6 +157,7 @@ MODE.LootTableStandard = {
 
 		{0.12,"weapon_hatchet"},
 		{0.10,"weapon_hg_axe"},
+		{0.32,"weapon_metal_bat"},
 		{0.09,"weapon_hg_sledgehammer"},
 		{0.07,"weapon_hg_machete"},
 	}},

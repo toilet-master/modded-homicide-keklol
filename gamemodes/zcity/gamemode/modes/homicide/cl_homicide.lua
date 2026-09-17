@@ -308,6 +308,7 @@ function MODE:HUDPaint()
 	draw.SimpleText("Homicide | " .. (MODE.TypeNames[MODE.Type] or "Unknown"), "ZB_HomicideMediumLarge", sw * 0.5, sh * 0.1, Color(0,162,255, 255 * fade), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 	local Rolename = ( lply.isTraitor and MODE.TypeObjectives[MODE.Type].traitor.name ) or ( lply.isGunner and MODE.TypeObjectives[MODE.Type].gunner.name ) or MODE.TypeObjectives[MODE.Type].innocent.name
 	local ColorRole = ( lply.isTraitor and MODE.TypeObjectives[MODE.Type].traitor.color1 ) or ( lply.isGunner and MODE.TypeObjectives[MODE.Type].gunner.color1 ) or MODE.TypeObjectives[MODE.Type].innocent.color1
+	local ColorRole2 = ( lply.isTraitor and MODE.TypeObjectives[MODE.Type].traitor.color2 ) or ( lply.isGunner and MODE.TypeObjectives[MODE.Type].gunner.color2 ) or MODE.TypeObjectives[MODE.Type].innocent.color2
 	ColorRole.a = 255 * fade
 
 	local color_role_innocent = MODE.TypeObjectives[MODE.Type].innocent.color1
@@ -399,7 +400,7 @@ function MODE:HUDPaint()
 	ColorObj.a = 255 * fade
 	draw.SimpleText( Objective, "ZB_HomicideMedium", sw * 0.5, sh * 0.9, ColorObj, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 	local gradient_u = Material("vgui/gradient-d")
-	surface.SetDrawColor(ColorObj.r,ColorObj.g,ColorObj.b,ColorRole.a)
+	surface.SetDrawColor(ColorRole2.r or 255,ColorRole2.g or 255,ColorRole2.b or 255,ColorRole.a)
 	surface.SetMaterial(gradient_u)
 	surface.DrawTexturedRect(sw * 0, sh * 1 - ScreenScale(15), sw / 1, ScreenScale(40))
 	if hg.PluvTown.Active then

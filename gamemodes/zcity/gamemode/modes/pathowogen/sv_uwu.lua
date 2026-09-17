@@ -692,6 +692,7 @@ MODE.LootTable = {
 		{0.5,"weapon_hg_crowbar"},
 		{0.4,"weapon_tomahawk"},
 		{0.4,"weapon_hatchet"},
+		{1,"weapon_metal_bat"},
 		{0.25,"weapon_hg_axe"},
 		{0.25,"weapon_hg_sledgehammer"},
 		{0.27, "ent_armor_helmet2"},

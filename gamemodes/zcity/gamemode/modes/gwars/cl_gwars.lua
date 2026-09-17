@@ -53,7 +53,7 @@ net.Receive("gwars_start", function()
 		end
 	end)
 
-		
+	timer.Simple(0.2,function ()
 	local sw, sh = ScrW(), ScrH()
 	pnl = vgui.Create( "DPanel" )
 	pnl:SetSize(sw, sh)
@@ -69,7 +69,7 @@ net.Receive("gwars_start", function()
 	local opposite = mteam == 0 and 1 or 0
 	local listt, listo = apptbl[mteam], apptbl[opposite]
 	local clrbg = teams[mteam].color1
-	model:SetModel( listt[math.random(#listt)] or "models/gang_groove/gang_1.mdl" )
+	model:SetModel( listo[math.random(#listo)] or "models/gang_groove/gang_1.mdl" )
 	model:SetSize( sw / 4, sh / 1 )
 	model:SetPos( sw / 20, sh / 40 ) 
 	model:SetFOV(40)
@@ -91,7 +91,7 @@ net.Receive("gwars_start", function()
 	model:SetAlpha(255)
 	model:AlphaTo(0, 1, zb.ROUND_START + 6.5 - CurTime(), function () model:Remove() pnl:Remove() end)
 	local model1 = vgui.Create("DModelPanel",pnl)
-	model1:SetModel( listo[math.random(#listo)] or "models/gang_ballas/gang_ballas_1.mdl" )
+	model1:SetModel( listt[math.random(#listt)] or "models/gang_ballas/gang_ballas_1.mdl" )
 	model1:SetSize( panel_w, panel_h )
 	model1:SetPos( posX, posY )
 	model1:SetFOV(40)
@@ -112,6 +112,7 @@ net.Receive("gwars_start", function()
 	model1:AlphaTo(0, 1, zb.ROUND_START + 6.5 - CurTime(), function () model:Remove() pnl:Remove() end)
 	model1:SetDirectionalLight(BOX_BOTTOM, clrbg)
 	model1:SetDirectionalLight(BOX_FRONT, clrbg)
+	end)
 	
 	
 

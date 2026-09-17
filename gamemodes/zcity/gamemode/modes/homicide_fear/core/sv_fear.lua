@@ -3,6 +3,7 @@ local MODE = MODE
 
 MODE.GuiltDisabled = true
 MODE.PoliceTime = 9999
+MODE.Chance = 0.5
 
 function MODE:AfterBaseInheritance()
 	self.Types.standard2 = self.Types.standard
@@ -15,7 +16,7 @@ function MODE:AfterBaseInheritance()
 end
 
 function MODE:CanLaunch()
-	return false
+	return self:mapcheck()
 end
 
 function MODE:IsDoor(ent)

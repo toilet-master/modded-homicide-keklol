@@ -60,6 +60,12 @@ function MODE:ShouldCollide(ent1, ent2)
 		return false
 	end
 end
+function MODE:mapcheck()
+	if game.GetMap() == "gm_stage_6" then
+		return true
+	end
+	return false
+end
 
 -- function MODE:EntityEmitSound(tbl)
 -- 	if CLIENT then
